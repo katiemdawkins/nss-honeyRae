@@ -43,6 +43,7 @@ export const CustomerList = () => {
 //using the map function (an array method) as a conversion tool below to to convert objects to html
     return (
         <>
+            <h2>Customers</h2>
             <div>{totalCustomerMessage}</div>
             {
                 customers.slice(0, 5).map(

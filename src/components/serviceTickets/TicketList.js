@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import "./Tickets.css"
+import { Link } from "react-router-dom"
 
 export const TicketList = () => {
     const [tickets, updateTickets] = useState([])
@@ -25,6 +26,7 @@ export const TicketList = () => {
 
     return (
         <>
+            <h2>Service Tickets</h2>
             <div>
                 <button onClick={()=> history.push("serviceTickets/create")}>Create Ticket</button>
             </div>
@@ -34,7 +36,7 @@ export const TicketList = () => {
                     (ticket) => {
                         return <div key={`ticket--${ticket.id}`}>
                             <p className={`ticket ${ticket.emergency ? `emergency`: ""}`}>
-                                {ticket.emergency ? "🚑" : ""} {ticket.description} submitted by {ticket.customer.name} and worked on by {ticket.employee.name}
+                                {ticket.emergency ? "🚑" : ""} <Link to={`/serviceTickets/${ticket.id}`}>{ticket.description}</Link> submitted by {ticket.customer.name} and worked on by {ticket.employee.name}
                             </p>
                         </div>
                     }
@@ -43,3 +45,6 @@ export const TicketList = () => {
         </>
     )
 }
+
+//converted the ticket description into a hyperlink 
+//by directing to the url that it should change to when clicked 
