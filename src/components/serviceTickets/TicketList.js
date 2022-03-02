@@ -7,14 +7,19 @@ export const TicketList = () => {
     const [tickets, updateTickets] = useState([])
     const [active, setActive] = useState("")
     const history = useHistory()
+    
 
-    useEffect(
-        () => {
-            fetch("http://localhost:8088/serviceTickets?_expand=employee&_expand=customer")
+    const getState = () => {
+        fetch("http://localhost:8088/serviceTickets?_expand=employee&_expand=customer")
                 .then(res => res.json())
                 .then((data) => {
                     updateTickets(data)
                 })
+    }
+
+    useEffect(
+        () => {
+           getState()
         },
         []
     )
@@ -23,6 +28,16 @@ export const TicketList = () => {
         const activeTicketCount= tickets.filter(t=> t.dateCompleted === "").length
         setActive(`There are ${activeTicketCount} open tickets`)
     }, [tickets])
+
+    
+    const deleteTicket = (id) => {
+        return fetch(`http://localhost:8088/serviceTickets/${id}`, {
+            method: "DELETE"
+        })
+       .then((getState()))
+    }
+
+
 
     return (
         <>
@@ -38,6 +53,9 @@ export const TicketList = () => {
                             <p className={`ticket ${ticket.emergency ? `emergency`: ""}`}>
                                 {ticket.emergency ? "🚑" : ""} <Link to={`/serviceTickets/${ticket.id}`}>{ticket.description}</Link> submitted by {ticket.customer.name} and worked on by {ticket.employee.name}
                             </p>
+                            <button onClick={() => {
+                                deleteTicket(ticket.id)
+                            }}>Delete</button>
                         </div>
                     }
                 )
