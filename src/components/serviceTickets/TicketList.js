@@ -31,10 +31,12 @@ export const TicketList = () => {
 
     
     const deleteTicket = (id) => {
-        return fetch(`http://localhost:8088/serviceTickets/${id}`, {
+        fetch(`http://localhost:8088/serviceTickets/${id}`, {
             method: "DELETE"
         })
-       .then((getState()))
+       .then((data)=>{
+           getState(data)
+       })
     }
 
 
